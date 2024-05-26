@@ -16,6 +16,7 @@
 
 package com.bnorm.power
 
+import org.gradle.api.GradleException
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
@@ -23,6 +24,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinCompilerPluginSupportPlugin
 import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
 import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 
+@Suppress("DEPRECATION")
 class PowerAssertGradlePlugin : KotlinCompilerPluginSupportPlugin {
   override fun apply(target: Project): Unit = with(target) {
     extensions.create("kotlinPowerAssert", PowerAssertGradleExtension::class.java)
@@ -45,12 +47,9 @@ class PowerAssertGradlePlugin : KotlinCompilerPluginSupportPlugin {
   override fun applyToCompilation(
     kotlinCompilation: KotlinCompilation<*>,
   ): Provider<List<SubpluginOption>> {
-    val project = kotlinCompilation.target.project
-    val extension = project.extensions.getByType(PowerAssertGradleExtension::class.java)
-    return project.provider {
-      extension.functions.map {
-        SubpluginOption(key = "function", value = it)
-      }
-    }
+    throw GradleException(
+      "Starting with Kotlin 2.0.0, this compiler-plugin is no longer supported. " +
+        "Please switch to the official Kotlin power-assert compiler plugin: https://kotl.in/power-assert",
+    )
   }
 }
